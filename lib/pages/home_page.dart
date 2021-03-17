@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pemrograman_mobile_week6/models/item.dart';
-import 'package:pemrograman_mobile_week6/swipedetector.dart';
 
 class HomePage extends StatefulWidget {
   @override
