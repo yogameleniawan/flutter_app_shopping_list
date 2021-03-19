@@ -7,14 +7,52 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // final List<Item> items = [
-  //   Item(name: 'Sugar', price: 5000),
-  //   Item(name: 'Salt', price: 2000),
-  // ];
   TextEditingController inputName = new TextEditingController();
   TextEditingController inputPrice = new TextEditingController();
+  TextEditingController inputQty = new TextEditingController();
 
   List<Item> items = [];
+
+  void _showcontent(int index) {
+    showDialog(
+      context: context, barrierDismissible: false, // user must tap button!
+
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('Remove Item'),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: [
+                new Text('Are you sure to remove item?'),
+              ],
+            ),
+          ),
+          actions: [
+            new FlatButton(
+              child: new Text('YES'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _removeItemToList(index);
+              },
+            ),
+            new FlatButton(
+              child: new Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _removeItemToList(int idx) {
+    setState(() {
+      items.removeAt(
+          idx); // remove item from list with passing index value to parameter
+    });
+  }
 
   void showBottomSheet() {
     showModalBottomSheet<void>(
@@ -23,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Container(
-            height: 200,
+            height: 300,
             margin: EdgeInsets.only(left: 10, right: 10),
             // color: Colors.amber,
             child: Center(
@@ -47,15 +85,25 @@ class _HomePageState extends State<HomePage> {
                     ),
                     keyboardType: TextInputType.number,
                   ),
+                  TextFormField(
+                    controller: inputQty,
+                    decoration: InputDecoration(
+                      labelText: "Item Qty",
+                      hintText: "Insert item qty",
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
                   ElevatedButton(
                     child: const Text('Add Item'),
                     onPressed: () {
                       setState(() {
                         items.add(Item(
                             name: inputName.text,
-                            price: int.parse(inputPrice.text)));
+                            price: int.parse(inputPrice.text),
+                            qty: int.parse(inputQty.text)));
                         inputName.clear();
                         inputPrice.clear();
+                        inputQty.clear();
                       });
                       Navigator.pop(context);
                     },
@@ -90,6 +138,9 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final item = items[index];
                 return InkWell(
+                  onLongPress: () {
+                    _showcontent(index);
+                  },
                   onTap: () {
                     Navigator.pushNamed(context, '/item', arguments: item);
                   },
