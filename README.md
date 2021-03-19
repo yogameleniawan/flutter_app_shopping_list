@@ -2,6 +2,20 @@
 
 A new Flutter project.
 
+# Main Menu
+![plot](./images/1.png)
+
+# Add Item
+![plot](./images/2.png)
+![plot](./images/3.png)
+
+# Item Info
+![plot](./images/4.png)
+
+# Item Delete
+![plot](./images/5.png)
+![plot](./images/6.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
